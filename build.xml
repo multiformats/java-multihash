@@ -39,9 +39,6 @@
       <manifest>
 	  <attribute name="Class-Path" value="${manifest_cp}"/>
       </manifest>
-      <fileset dir=".">
-	<exclude name="out/**"/>
-      </fileset>
     </jar>
     <copy todir=".">
       <fileset file="${dist}/Multihash.jar"/>
