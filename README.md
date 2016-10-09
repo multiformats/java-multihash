@@ -9,9 +9,13 @@
 This is the [multihash](https://github.com/multiformats/multihash) implementation in Java.
 
 ## Usage
+
+```
 Multihash m = Multihash.fromBase58("QmatmE9msSfkKxoffpHwNLNKgwZG8eT9Bud6YoPab52vpy");
+```
 
 ## Compilation
+
 To compile just run ant.
 
 ## Maintainers
