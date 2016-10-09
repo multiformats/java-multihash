@@ -40,10 +40,7 @@
 	  <attribute name="Class-Path" value="${manifest_cp}"/>
       </manifest>
       <fileset dir=".">
-	<include name="**/ui/**"/>
 	<exclude name="out/**"/>
-	<exclude name="ui/doppio/**"/>
-	<exclude name="ui/PeergosServer.jar"/>
       </fileset>
     </jar>
     <copy todir=".">
