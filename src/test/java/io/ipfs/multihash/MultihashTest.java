@@ -1,7 +1,7 @@
 package io.ipfs.multihash;
 
 import org.junit.*;
-
+import io.ipfs.multibase.*;
 import java.util.*;
 
 public class MultihashTest {

@@ -1,5 +1,7 @@
 package io.ipfs.multihash;
 
+import io.ipfs.multibase.*;
+
 import java.io.*;
 import java.util.*;
 
