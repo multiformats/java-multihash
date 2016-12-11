@@ -14,9 +14,24 @@ This is the [multihash](https://github.com/multiformats/multihash) implementatio
 Multihash m = Multihash.fromBase58("QmatmE9msSfkKxoffpHwNLNKgwZG8eT9Bud6YoPab52vpy");
 ```
 
-## Compilation
+## Testing
 
-To compile just run ant.
+### Ant
+`ant test`
+
+### Maven
+`mvn test`
+
+## Building
+
+### Ant
+`ant dist` will build a JAR file suitable for manual inclusion in a project.
+
+### Maven
+`mvn package` will build a JAR file with Maven dependency information.
+
+## Releasing
+The version number is specified in `build.xml` and `pom.xml` and must be changed in both places in order to be accurately reflected in the JAR file manifest.
 
 ## Maintainers
 
