@@ -37,7 +37,10 @@
     </manifestclasspath>
     <jar jarfile="${dist}/multihash.jar" basedir="${build}">
       <manifest>
-	  <attribute name="Class-Path" value="${manifest_cp}"/>
+        <attribute name="Class-Path" value="${manifest_cp}"/>
+        <attribute name="Implementation-Vendor" value="io.ipfs"/>
+        <attribute name="Implementation-Title" value="multihash"/>
+        <attribute name="Implementation-Version" value="1.0.0"/>
       </manifest>
     </jar>
     <copy todir=".">
