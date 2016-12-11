@@ -4,7 +4,7 @@ import org.junit.*;
 
 import java.util.*;
 
-public class MultihashTests {
+public class MultihashTest {
 
     @Test
     public void base58Test() {
