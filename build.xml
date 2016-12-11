@@ -55,8 +55,8 @@
       	<pathelement location="multihash.jar" />
       </classpath>
       <test name="io.ipfs.multihash.MultihashTests" haltonfailure="yes">
-	<formatter type="plain"/>
-	<formatter type="xml"/>
+				<formatter type="plain"/>
+				<formatter type="xml"/>
       </test>
       </junit>
   </target>
