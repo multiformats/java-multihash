@@ -14,7 +14,7 @@ This is the [multihash](https://github.com/multiformats/multihash) implementatio
 Multihash m = Multihash.fromBase58("QmatmE9msSfkKxoffpHwNLNKgwZG8eT9Bud6YoPab52vpy");
 ```
 ## Dependency
-You can use this project by building the JAR file as specified below, or by using [JitPack](https://jitpack.io/#multihash/java-multihash/) (also supporting Gradle, SBT, etc).
+You can use this project by building the JAR file as specified below, or by using [JitPack](https://jitpack.io/#multiformats/java-multihash/) (also supporting Gradle, SBT, etc).
 
 for Maven, you can add the follwing sections to your POM.XML:
 ```
