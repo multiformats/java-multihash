@@ -13,6 +13,22 @@ This is the [multihash](https://github.com/multiformats/multihash) implementatio
 ```
 Multihash m = Multihash.fromBase58("QmatmE9msSfkKxoffpHwNLNKgwZG8eT9Bud6YoPab52vpy");
 ```
+## Dependency
+You can use this project by building the JAR file as specified below, or by using [JitPack](https://jitpack.io/#multihash/java-multihash/) (also supporting Gradle, SBT, etc).
+
+for Maven, you can add to your POM.XML:
+  <repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+  </repositories>
+
+  <dependency>
+      <groupId>com.github.multiformats</groupId>
+      <artifactId>java-multihash</artifactId>
+      <version>v1.0.0</version>
+  </dependency>
 
 ## Testing
 
@@ -31,7 +47,7 @@ Multihash m = Multihash.fromBase58("QmatmE9msSfkKxoffpHwNLNKgwZG8eT9Bud6YoPab52v
 `mvn package` will build a JAR file with Maven dependency information.
 
 ## Releasing
-The version number is specified in `build.xml` and `pom.xml` and must be changed in both places in order to be accurately reflected in the JAR file manifest.
+The version number is specified in `build.xml` and `pom.xml` and must be changed in both places in order to be accurately reflected in the JAR file manifest. A git tag must be added in the format "vx.x.x" for JitPack to work.
 
 ## Maintainers
 
