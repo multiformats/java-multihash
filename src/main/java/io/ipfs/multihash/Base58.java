@@ -1,4 +1,4 @@
-package org.ipfs.api;
+package io.ipfs.multihash;
 
 /**
  * Copyright 2011 Google Inc.

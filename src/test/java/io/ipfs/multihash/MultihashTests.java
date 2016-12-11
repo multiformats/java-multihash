@@ -1,4 +1,4 @@
-package org.ipfs.api;
+package io.ipfs.multihash;
 
 import org.junit.*;
 
