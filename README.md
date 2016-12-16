@@ -2,14 +2,11 @@
 
 [![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg?style=flat-square)](http://ipn.io)
 [![](https://img.shields.io/badge/project-multiformats-blue.svg?style=flat-square)](http://github.com/multiformats/multiformats)
-[![Build Status](https://travis-ci.org/multiformats/java-multihash.svg?branch=master)](https://travis-ci.org/multiformats/java-multihash)
 [![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg?style=flat-square)](http://webchat.freenode.net/?channels=%23ipfs)
-[![Release](https://jitpack.io/v/multiformats/java-multihash.svg)]
-(https://jitpack.io/#multiformats/java-multihash)
+[![Build Status](https://travis-ci.org/multiformats/java-multihash.svg?branch=master)](https://travis-ci.org/multiformats/java-multihash)
+[![Release](https://jitpack.io/v/multiformats/java-multihash.svg)](https://jitpack.io/#multiformats/java-multihash)
 
-> A Java implementation of Multihash
-
-This is the [multihash](https://github.com/multiformats/multihash) implementation in Java.
+> A Java implementation of [multihash](https://github.com/multiformats/multihash).
 
 ## Usage
 
