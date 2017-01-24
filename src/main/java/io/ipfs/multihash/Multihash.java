@@ -46,6 +46,10 @@ public class Multihash {
         this.hash = hash;
     }
 
+    public Multihash(Multihash toClone) {
+        this(toClone.type, toClone.hash); // N.B. despite being a byte[], hash is immutable
+    }
+
     public Multihash(byte[] multihash) {
         this(Type.lookup(multihash[0] & 0xff), Arrays.copyOfRange(multihash, 2, multihash.length));
     }
