@@ -13,7 +13,7 @@ public class MultihashTest {
         for (String example: examples) {
             byte[] output = Base58.decode(example);
             String encoded = Base58.encode(output);
-            if (!encoded.equals(encoded))
+            if (!encoded.equals(example))
                 throw new IllegalStateException("Incorrect base58! " + example + " => " + encoded);
         }
     }
