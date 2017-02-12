@@ -10,7 +10,7 @@ public class Multihash {
         sha1(0x11, 20),
         sha2_256(0x12, 32),
         sha2_512(0x13, 64),
-        sha3(0x14, 64),
+        sha3_512(0x14, 64),
         blake2b(0x40, 64),
         blake2s(0x41, 32);
 
