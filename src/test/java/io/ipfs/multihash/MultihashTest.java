@@ -4,6 +4,8 @@ import org.junit.*;
 import io.ipfs.multibase.*;
 import java.util.*;
 import java.security.MessageDigest;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 
 public class MultihashTest {
 
@@ -43,9 +45,11 @@ public class MultihashTest {
                 // Test conversions
                 assert(m.toBase58().equals(m2.toBase58()));
                 assert(m.toBase58().equals((String)ex[2]));
+                // Test fromHex and toHex
+                Multihash m3 = Multihash.fromHex(m.toHex());
+                assert(m3.equals(m));
             }
             catch (Exception e){
-                // Usually because a hash function not supported
                 System.out.println(e.getMessage());
                 assert(false);
             }
