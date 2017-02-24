@@ -4,8 +4,6 @@ import org.junit.*;
 import io.ipfs.multibase.*;
 import java.util.*;
 import java.security.MessageDigest;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 
 public class MultihashTest {
 
