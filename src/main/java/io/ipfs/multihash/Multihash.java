@@ -7,6 +7,7 @@ import java.util.*;
 
 public class Multihash {
     public enum Type {
+        md5(0xd5, 16),
         sha1(0x11, 20),
         sha2_256(0x12, 32),
         sha2_512(0x13, 64),

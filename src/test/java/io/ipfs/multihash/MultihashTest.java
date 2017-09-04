@@ -22,6 +22,7 @@ public class MultihashTest {
     @Test
     public void multihashTest() {
         Object[][] examples = new Object[][]{
+            {Multihash.Type.md5, "MD5", "9qZY4e2uauH3bG83FdaPSaPzA", "hello world"},
             {Multihash.Type.sha1, "SHA-1", "5drNu81uhrFLRiS4bxWgAkpydaLUPW", "hello world"},
             {Multihash.Type.sha2_256, "SHA-256", "QmaozNR7DZHQK1ZcU9p7QdrshMvXqWK6gpu5rmrkPdT3L4", "hello world"},
             {Multihash.Type.sha2_512, "SHA-512", "8Vtkv2tdQ43bNGdWN9vNx9GVS9wrbXHk4ZW8kmucPmaYJwwedXir52kti9wJhcik4HehyqgLrQ1hBuirviLhxgRBNv", "hello world"}
