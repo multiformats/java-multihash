@@ -70,7 +70,7 @@ public class Multihash {
     }
 
     public byte[] getHash() {
-        byte[] res = new byte[hash.length]
+        byte[] res = new byte[hash.length];
         System.arraycopy(hash, 0, res, 0, hash.length);
         return res;
     }
