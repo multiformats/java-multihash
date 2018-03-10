@@ -8,7 +8,7 @@ import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class MultihashTest {
 
@@ -19,8 +19,7 @@ public class MultihashTest {
         for (String example: examples) {
             byte[] output = Base58.decode(example);
             String encoded = Base58.encode(output);
-            if (!examples.contains(encoded))
-                throw new IllegalStateException("Incorrect base58! " + example + " => " + encoded);
+            assertEquals(example, encoded);
         }
     }
 
@@ -39,23 +38,23 @@ public class MultihashTest {
             Multihash m = Multihash.fromBase58((String)ex[1]);
             try {
                 MessageDigest md = MessageDigest.getInstance(ex[0].toString());
-                assert(md != null);
+                assertNotNull(md );
                 md.update(((String) ex[2]).getBytes("UTF-8"));
                 byte[] digest = md.digest();
                 // Test constructor
                 Multihash m2 = new Multihash((Multihash.Type)ex[0], digest);
                 // Test comparison
-                assert(m2.equals(m));
+                assertEquals(m, m2);
                 // Test conversions
-                assert(m.toBase58().equals(m2.toBase58()));
-                assert(m.toBase58().equals(ex[1]));
+                assertEquals(m.toBase58(), m2.toBase58());
+                assertEquals(m.toBase58(), ex[1]);
                 // Test fromHex and toHex
                 Multihash m3 = Multihash.fromHex(m.toHex());
-                assert(m3.equals(m));
+                assertEquals(m, m3);
             }
             catch (Exception e){
                 System.out.println(e.getMessage());
-                assert(false);
+                assertTrue(false);
             }
         }
     }
