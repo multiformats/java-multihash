@@ -1,25 +1,32 @@
 package io.ipfs.multihash;
 
-import io.ipfs.multibase.*;
+import io.ipfs.multibase.Base16;
+import io.ipfs.multibase.Base58;
 
 import java.io.*;
-import java.util.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Multihash {
     public enum Type {
-        md5(0xd5, 16),
-        sha1(0x11, 20),
-        sha2_256(0x12, 32),
-        sha2_512(0x13, 64),
-        sha3_512(0x14, 64),
-        blake2b(0x40, 64),
-        blake2s(0x41, 32);
+        md5(0xd5, 16, "MD5"),
+        sha1(0x11, 20, "SHA-1"),
+        sha2_256(0x12, 32, "SHA-256"),
+        sha2_512(0x13, 64, "SHA-512"),
+        sha3_512(0x14, 64, "N/A"),
+        blake2b(0x40, 64, "N/A"),
+        blake2s(0x41, 32, "N/A");
 
-        public int index, length;
+        public final int index, length;
+        public final String name;
 
-        Type(int index, int length) {
+        Type(final int index, final int length, final String name) {
             this.index = index;
             this.length = length;
+            this.name = name;
         }
 
         private static Map<Integer, Type> lookup = new TreeMap<>();
@@ -33,12 +40,17 @@ public class Multihash {
                 throw new IllegalStateException("Unknown Multihash type: "+t);
             return lookup.get(t);
         }
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 
-    public final Type type;
+    private final Type type;
     private final byte[] hash;
 
-    public Multihash(Type type, byte[] hash) {
+    public Multihash(final Type type, final byte[] hash) {
         if (hash.length > 127)
             throw new IllegalStateException("Unsupported hash size: "+hash.length);
         if (hash.length != type.length)
@@ -51,7 +63,7 @@ public class Multihash {
         this(toClone.type, toClone.hash); // N.B. despite being a byte[], hash is immutable
     }
 
-    public Multihash(byte[] multihash) {
+    public Multihash(final byte[] multihash) {
         this(Type.lookup(multihash[0] & 0xff), Arrays.copyOfRange(multihash, 2, multihash.length));
     }
 
@@ -61,6 +73,14 @@ public class Multihash {
         res[1] = (byte)hash.length;
         System.arraycopy(hash, 0, res, 2, hash.length);
         return res;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public byte[] getHash() {
+        return Arrays.copyOf(hash, hash.length);
     }
 
     public void serialize(DataOutput dout) throws IOException {
@@ -74,6 +94,21 @@ public class Multihash {
         byte[] hash = new byte[len];
         din.readFully(hash);
         return new Multihash(t, hash);
+    }
+
+    public static Multihash hash(final String input, final Type type) throws IOException {
+
+        try {
+            MessageDigest md = MessageDigest.getInstance(type.toString());
+            md.update(input.getBytes("UTF-8"));
+
+            byte[] digest = md.digest();
+            return new Multihash(type, digest);
+
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            throw new IOException("Unable to hash input: " + input + " with Type: " + type);
+        }
+
     }
 
     @Override
@@ -93,17 +128,8 @@ public class Multihash {
         return Arrays.hashCode(hash) ^ type.hashCode();
     }
 
-    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
-
     public String toHex() {
-        byte[] bytes = toBytes();
-        char[] hexChars = new char[bytes.length * 2];
-        for ( int j = 0; j < bytes.length; j++ ) {
-            int v = bytes[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
-        }
-        return new String(hexChars);
+        return Base16.encode(toBytes());
     }
 
     public String toBase58() {
