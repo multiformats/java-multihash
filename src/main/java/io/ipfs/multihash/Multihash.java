@@ -3,30 +3,29 @@ package io.ipfs.multihash;
 import io.ipfs.multibase.Base16;
 import io.ipfs.multibase.Base58;
 
-import java.io.*;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class Multihash {
     public enum Type {
-        md5(0xd5, 16, "MD5"),
-        sha1(0x11, 20, "SHA-1"),
-        sha2_256(0x12, 32, "SHA-256"),
-        sha2_512(0x13, 64, "SHA-512"),
-        sha3_512(0x14, 64, "N/A"),
-        blake2b(0x40, 64, "N/A"),
-        blake2s(0x41, 32, "N/A");
+        md5(0xd5, 16),
+        sha1(0x11, 20),
+        sha2_256(0x12, 32),
+        sha2_512(0x13, 64),
+        sha3_512(0x14, 64),
+        blake2b(0x40, 64),
+        blake2s(0x41, 32);
 
         public final int index, length;
-        public final String name;
 
-        Type(final int index, final int length, final String name) {
+        Type(final int index, final int length) {
             this.index = index;
             this.length = length;
-            this.name = name;
         }
 
         private static Map<Integer, Type> lookup = new TreeMap<>();
@@ -41,10 +40,6 @@ public class Multihash {
             return lookup.get(t);
         }
 
-        @Override
-        public String toString() {
-            return name;
-        }
     }
 
     private final Type type;
@@ -96,21 +91,6 @@ public class Multihash {
         return new Multihash(t, hash);
     }
 
-    public static Multihash hash(final String input, final Type type) throws IOException {
-
-        try {
-            MessageDigest md = MessageDigest.getInstance(type.toString());
-            md.update(input.getBytes("UTF-8"));
-
-            byte[] digest = md.digest();
-            return new Multihash(type, digest);
-
-        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-            throw new IOException("Unable to hash input: " + input + " with Type: " + type);
-        }
-
-    }
-
     @Override
     public String toString() {
         return toBase58();
@@ -138,11 +118,15 @@ public class Multihash {
 
     public static Multihash fromHex(String hex) {
         if (hex.length() % 2 != 0)
-            throw new IllegalStateException("Uneven number of hex digits!");
-        ByteArrayOutputStream bout = new ByteArrayOutputStream();
-        for (int i=0; i < hex.length()-1; i+= 2)
-            bout.write(Integer.valueOf(hex.substring(i, i+2), 16));
-        return new Multihash(bout.toByteArray());
+            throw new IllegalStateException("Odd number of hex digits!");
+
+        try (ByteArrayOutputStream bout = new ByteArrayOutputStream()) {
+            for (int i = 0; i < hex.length() - 1; i += 2)
+                bout.write(Integer.valueOf(hex.substring(i, i + 2), 16));
+            return new Multihash(bout.toByteArray());
+        } catch (IOException e) {
+            throw new IllegalStateException("Unable to handle Multihash conversion to Hex properly");
+        }
     }
 
     public static Multihash fromBase58(String base58) {
