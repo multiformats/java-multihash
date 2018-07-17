@@ -32,9 +32,9 @@ for Maven, you can add the follwing sections to your POM.XML:
 
   <dependencies>
     <dependency>
-      <groupId>com.github.multiformats</groupId>
-      <artifactId>java-multihash</artifactId>
-      <version>v1.2.0</version>
+      <groupId>io.ipfs</groupId>
+      <artifactId>multihash</artifactId>
+      <version>v1.2.1</version>
     </dependency>
   </dependencies>
 ```
