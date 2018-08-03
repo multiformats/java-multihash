@@ -2,9 +2,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>io.ipfs</groupId>
-	<artifactId>multihash</artifactId>
-	<version>1.2.0</version>
+    <groupId>com.github.multiformats</groupId>
+    <artifactId>java-multihash</artifactId>
+	<version>v1.2.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>multihash</name>
@@ -45,6 +45,11 @@
 	</repositories>
 
 	<dependencies>
+        <dependency>
+            <groupId>com.github.multiformats</groupId>
+            <artifactId>java-multibase</artifactId>
+            <version>${version.multibase}</version>
+        </dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -56,11 +61,6 @@
 			<artifactId>hamcrest-core</artifactId>
 			<version>${version.hamcrest}</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.github.multiformats</groupId>
-			<artifactId>java-multibase</artifactId>
-			<version>${version.multibase}</version>
 		</dependency>
 	</dependencies>
 
