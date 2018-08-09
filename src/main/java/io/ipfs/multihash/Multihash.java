@@ -1,9 +1,15 @@
 package io.ipfs.multihash;
 
-import io.ipfs.multibase.*;
+import io.ipfs.multibase.Base16;
+import io.ipfs.multibase.Base58;
 
-import java.io.*;
-import java.util.*;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Multihash {
     public enum Type {
@@ -21,9 +27,9 @@ public class Multihash {
         blake2b(0x40, 64),
         blake2s(0x41, 32);
 
-        public int index, length;
+        public final int index, length;
 
-        Type(int index, int length) {
+        Type(final int index, final int length) {
             this.index = index;
             this.length = length;
         }
@@ -39,12 +45,13 @@ public class Multihash {
                 throw new IllegalStateException("Unknown Multihash type: "+t);
             return lookup.get(t);
         }
+
     }
 
-    public final Type type;
+    private final Type type;
     private final byte[] hash;
 
-    public Multihash(Type type, byte[] hash) {
+    public Multihash(final Type type, final byte[] hash) {
         if (hash.length > 127)
             throw new IllegalStateException("Unsupported hash size: "+hash.length);
         if (hash.length != type.length)
@@ -57,7 +64,7 @@ public class Multihash {
         this(toClone.type, toClone.hash); // N.B. despite being a byte[], hash is immutable
     }
 
-    public Multihash(byte[] multihash) {
+    public Multihash(final byte[] multihash) {
         this(Type.lookup(multihash[0] & 0xff), Arrays.copyOfRange(multihash, 2, multihash.length));
     }
 
@@ -68,10 +75,13 @@ public class Multihash {
         System.arraycopy(hash, 0, res, 2, hash.length);
         return res;
     }
+  
+    public Type getType() {
+        return type;
+    }
 
     public byte[] getHash() {
-        byte[] res = Arrays.copyOf(hash)
-        return res;
+        return Arrays.copyOf(hash, hash.length);
     }
 
     public void serialize(DataOutput dout) throws IOException {
@@ -104,17 +114,8 @@ public class Multihash {
         return Arrays.hashCode(hash) ^ type.hashCode();
     }
 
-    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
-
     public String toHex() {
-        byte[] bytes = toBytes();
-        char[] hexChars = new char[bytes.length * 2];
-        for ( int j = 0; j < bytes.length; j++ ) {
-            int v = bytes[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
-        }
-        return new String(hexChars);
+        return Base16.encode(toBytes());
     }
 
     public String toBase58() {
@@ -123,11 +124,15 @@ public class Multihash {
 
     public static Multihash fromHex(String hex) {
         if (hex.length() % 2 != 0)
-            throw new IllegalStateException("Uneven number of hex digits!");
-        ByteArrayOutputStream bout = new ByteArrayOutputStream();
-        for (int i=0; i < hex.length()-1; i+= 2)
-            bout.write(Integer.valueOf(hex.substring(i, i+2), 16));
-        return new Multihash(bout.toByteArray());
+            throw new IllegalStateException("Odd number of hex digits!");
+
+        try (ByteArrayOutputStream bout = new ByteArrayOutputStream()) {
+            for (int i = 0; i < hex.length() - 1; i += 2)
+                bout.write(Integer.valueOf(hex.substring(i, i + 2), 16));
+            return new Multihash(bout.toByteArray());
+        } catch (IOException e) {
+            throw new IllegalStateException("Unable to handle Multihash conversion to Hex properly");
+        }
     }
 
     public static Multihash fromBase58(String base58) {
