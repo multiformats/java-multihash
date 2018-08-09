@@ -17,7 +17,13 @@ public class Multihash {
         sha1(0x11, 20),
         sha2_256(0x12, 32),
         sha2_512(0x13, 64),
+        sha3_224(0x17, 24),
+        sha3_256(0x16, 32),
         sha3_512(0x14, 64),
+        keccak_224(0x1a, 24),
+        keccak_256(0x1b, 32),
+        keccak_384(0x1c, 48),
+        keccak_512(0x1d, 64),
         blake2b(0x40, 64),
         blake2s(0x41, 32);
 
@@ -69,7 +75,7 @@ public class Multihash {
         System.arraycopy(hash, 0, res, 2, hash.length);
         return res;
     }
-
+  
     public Type getType() {
         return type;
     }
