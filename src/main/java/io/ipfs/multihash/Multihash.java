@@ -13,6 +13,7 @@ import java.util.TreeMap;
 
 public class Multihash {
     public enum Type {
+        id(0, -1),
         md5(0xd5, 16),
         sha1(0x11, 20),
         sha2_256(0x12, 32),
@@ -54,8 +55,10 @@ public class Multihash {
     public Multihash(final Type type, final byte[] hash) {
         if (hash.length > 127)
             throw new IllegalStateException("Unsupported hash size: "+hash.length);
-        if (hash.length != type.length)
+        if (hash.length != type.length && type != Type.id)
             throw new IllegalStateException("Incorrect hash length: " + hash.length + " != "+type.length);
+        if (type == Type.id && hash.length > 64)
+            throw new IllegalStateException("Unsupported size for identity hash! "+ hash.length);
         this.type = type;
         this.hash = hash;
     }

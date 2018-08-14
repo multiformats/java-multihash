@@ -25,6 +25,8 @@ public class MultihashTest {
     @Test
     public void multihashTest() {
         Object[][] examples = new Object[][]{
+            {Multihash.Type.id, "ID", "13hC12xCn", "hello"},
+            {Multihash.Type.id, "ID", "11", ""},
             {Multihash.Type.md5, "MD5", "9qZY4e2uauH3bG83FdaPSaPzA", "hello world"},
             {Multihash.Type.sha1, "SHA-1", "5drNu81uhrFLRiS4bxWgAkpydaLUPW", "hello world"},
             {Multihash.Type.sha2_256, "SHA-256", "QmaozNR7DZHQK1ZcU9p7QdrshMvXqWK6gpu5rmrkPdT3L4", "hello world"},
@@ -36,10 +38,14 @@ public class MultihashTest {
         for(Object[] ex: examples) {
             Multihash m = Multihash.fromBase58((String)ex[2]);
             try {
-                MessageDigest md = MessageDigest.getInstance((String) ex[1]);
-                assertNotNull(md );
-                md.update(((String) ex[3]).getBytes("UTF-8"));
-                byte[] digest = md.digest();
+                byte[] digest;
+                if (ex[0] != Multihash.Type.id) {
+                    MessageDigest md = MessageDigest.getInstance((String) ex[1]);
+                    assertNotNull(md);
+                    md.update(((String) ex[3]).getBytes("UTF-8"));
+                    digest = md.digest();
+                } else
+                    digest = ((String) ex[3]).getBytes("UTF-8");
                 // Test constructor
                 Multihash m2 = new Multihash((Multihash.Type)ex[0], digest);
                 // Test comparison
