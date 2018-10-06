@@ -8,8 +8,8 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class Multihash {
     public enum Type {
@@ -35,16 +35,17 @@ public class Multihash {
             this.length = length;
         }
 
-        private static Map<Integer, Type> lookup = new TreeMap<>();
+        private static Map<Integer, Type> lookup = new HashMap<>();
         static {
             for (Type t: Type.values())
                 lookup.put(t.index, t);
         }
 
         public static Type lookup(int t) {
-            if (!lookup.containsKey(t))
+            Type type = lookup.get(t);
+            if (type == null)
                 throw new IllegalStateException("Unknown Multihash type: "+t);
-            return lookup.get(t);
+            return type;
         }
 
     }
