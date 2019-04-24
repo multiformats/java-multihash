@@ -1,17 +1,15 @@
 package io.ipfs.multihash;
 
-import io.ipfs.multibase.Base16;
-import io.ipfs.multibase.Base58;
+import io.ipfs.multibase.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Multihash {
+    public static final int MAX_IDENTITY_HASH_LENGTH = 1024*1024;
+
     public enum Type {
         id(0, -1),
         md5(0xd5, 16),
@@ -155,13 +153,13 @@ public class Multihash {
     private final Type type;
     private final byte[] hash;
 
-    public Multihash(final Type type, final byte[] hash) {
-        if (hash.length > 127)
+    public Multihash(Type type, byte[] hash) {
+        if (hash.length > 127 && type != Type.id)
+            throw new IllegalStateException("Unsupported hash size: "+hash.length);
+        if (hash.length > MAX_IDENTITY_HASH_LENGTH)
             throw new IllegalStateException("Unsupported hash size: "+hash.length);
         if (hash.length != type.length && type != Type.id)
             throw new IllegalStateException("Incorrect hash length: " + hash.length + " != "+type.length);
-        if (type == Type.id && hash.length > 64)
-            throw new IllegalStateException("Unsupported size for identity hash! "+ hash.length);
         this.type = type;
         this.hash = hash;
     }
@@ -170,16 +168,16 @@ public class Multihash {
         this(toClone.type, toClone.hash); // N.B. despite being a byte[], hash is immutable
     }
 
-    public Multihash(final byte[] multihash) {
-        this(Type.lookup(multihash[0] & 0xff), Arrays.copyOfRange(multihash, 2, multihash.length));
-    }
-
     public byte[] toBytes() {
-        byte[] res = new byte[hash.length+2];
-        res[0] = (byte)type.index;
-        res[1] = (byte)hash.length;
-        System.arraycopy(hash, 0, res, 2, hash.length);
-        return res;
+        try {
+            ByteArrayOutputStream res = new ByteArrayOutputStream();
+            putUvarint(res, type.index);
+            putUvarint(res, hash.length);
+            res.write(hash);
+            return res.toByteArray();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
   
     public Type getType() {
@@ -190,17 +188,34 @@ public class Multihash {
         return Arrays.copyOf(hash, hash.length);
     }
 
-    public void serialize(DataOutput dout) throws IOException {
-        dout.write(toBytes());
+    public void serialize(OutputStream out) {
+        try {
+            putUvarint(out, type.index);
+            putUvarint(out, hash.length);
+            out.write(hash);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static Multihash deserialize(DataInput din) throws IOException {
-        int type = din.readUnsignedByte();
-        int len = din.readUnsignedByte();
+    public static Multihash deserialize(InputStream din) throws IOException {
+        int type = (int)readVarint(din);
+        int len = (int)readVarint(din);
         Type t = Type.lookup(type);
         byte[] hash = new byte[len];
-        din.readFully(hash);
+        int total = 0;
+        while (total < len) {
+            int read = din.read(hash);
+            if (read < 0)
+                throw new EOFException();
+            else
+                total += read;
+        }
         return new Multihash(t, hash);
+    }
+
+    public static Multihash deserialize(byte[] raw) throws IOException {
+        return deserialize(new ByteArrayInputStream(raw));
     }
 
     @Override
@@ -235,13 +250,42 @@ public class Multihash {
         try (ByteArrayOutputStream bout = new ByteArrayOutputStream()) {
             for (int i = 0; i < hex.length() - 1; i += 2)
                 bout.write(Integer.valueOf(hex.substring(i, i + 2), 16));
-            return new Multihash(bout.toByteArray());
+            return Multihash.deserialize(bout.toByteArray());
         } catch (IOException e) {
             throw new IllegalStateException("Unable to handle Multihash conversion to Hex properly");
         }
     }
 
     public static Multihash fromBase58(String base58) {
-        return new Multihash(Base58.decode(base58));
+        try {
+            return Multihash.deserialize(Base58.decode(base58));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static long readVarint(InputStream in) throws IOException {
+        long x = 0;
+        int s=0;
+        for (int i=0; i < 10; i++) {
+            int b = in.read();
+            if (b < 0x80) {
+                if (i == 9 && b > 1) {
+                    throw new IllegalStateException("Overflow reading varint!");
+                }
+                return x | (((long)b) << s);
+            }
+            x |= ((long)b & 0x7f) << s;
+            s += 7;
+        }
+        throw new IllegalStateException("Varint too long!");
+    }
+
+    public static void putUvarint(OutputStream out, long x) throws IOException {
+        while (x >= 0x80) {
+            out.write((byte)(x | 0x80));
+            x >>= 7;
+        }
+        out.write((byte)x);
     }
 }
