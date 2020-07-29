@@ -144,7 +144,7 @@ public class Multihash {
         public static Type lookup(int t) {
             Type type = lookup.get(t);
             if (type == null)
-                throw new IllegalStateException("Unknown Multihash type: "+t);
+                throw new IllegalStateException(String.format("Unknown Multihash type: 0x%x", t));
             return type;
         }
 
