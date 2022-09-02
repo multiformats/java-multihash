@@ -218,6 +218,18 @@ public class Multihash {
         return deserialize(new ByteArrayInputStream(raw));
     }
 
+    /**
+     *
+     * @param encoded A multibase encoded serialization of a Multihash
+     * @return
+     * @throws IOException
+     */
+    public static Multihash decode(String encoded) throws IOException {
+        if (encoded.length() == 46 && encoded.startsWith("Qm"))
+            return deserialize(Base58.decode(encoded));
+        return deserialize(Multibase.decode(encoded));
+    }
+
     @Override
     public String toString() {
         return toBase58();

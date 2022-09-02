@@ -1,8 +1,9 @@
 package io.ipfs.multihash;
 
-import io.ipfs.multibase.Base58;
+import io.ipfs.multibase.*;
 import org.junit.Test;
 
+import java.io.*;
 import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +20,22 @@ public class MultihashTest {
             byte[] output = Base58.decode(example);
             String encoded = Base58.encode(output);
             assertEquals(example, encoded);
+        }
+    }
+
+    @Test
+    public void decodeTest() throws IOException {
+        List<String> base58 = Arrays.asList(
+                "QmPZ9gcCEpqKTo6aq61g2nXGUhM4iCL3ewB6LDXZCtioEB",
+                "QmatmE9msSfkKxoffpHwNLNKgwZG8eT9Bud6YoPab52vpy"
+        );
+        List<String> base36 = Arrays.asList(
+                "kmue2y4illvr0m3lt8x6z8iwghtxlzdmkjh957p5rr5cdr9243ugc",
+                "kmuia3qyasz2z5cnz848bag5n5wfc7gzi35cz2npamtmkyifd5anu");
+        for (int i=0; i < base58.size(); i++) {
+            Multihash b58 = Multihash.decode(base58.get(i));
+            Multihash b36 = Multihash.decode(base36.get(i));
+            assertEquals(b58, b36);
         }
     }
 
