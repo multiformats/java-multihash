@@ -30,9 +30,8 @@ public class MultihashTest {
             {Multihash.Type.md5, "MD5", "fzhnUYo18W8ewDBzLuzLqc9Twp", "hello world"},
             {Multihash.Type.sha1, "SHA-1", "5drNu81uhrFLRiS4bxWgAkpydaLUPW", "hello world"},
             {Multihash.Type.sha2_256, "SHA-256", "QmaozNR7DZHQK1ZcU9p7QdrshMvXqWK6gpu5rmrkPdT3L4", "hello world"},
-            {Multihash.Type.sha2_512, "SHA-512", "8Vtkv2tdQ43bNGdWN9vNx9GVS9wrbXHk4ZW8kmucPmaYJwwedXir52kti9wJhcik4HehyqgLrQ1hBuirviLhxgRBNv", "hello world"}
-            // SHA3 not yet implemented in standard Java library. https://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html#MessageDigest
-            // {Multihash.Type.sha3_512, "SHA3-512",  "8tWhXW5oUwtPd9d3FnjuLP1NozN3vc45rmsoWEEfrZL1L6gi9dqi1YkZu5iHb2HJ8WbZaaKAyNWWRAa8yaxMkGKJmX", "hello world"}
+            {Multihash.Type.sha2_512, "SHA-512", "8Vtkv2tdQ43bNGdWN9vNx9GVS9wrbXHk4ZW8kmucPmaYJwwedXir52kti9wJhcik4HehyqgLrQ1hBuirviLhxgRBNv", "hello world"},
+            {Multihash.Type.sha3_512, "SHA3-512",  "8tWhXW5oUwtPd9d3FnjuLP1NozN3vc45rmsoWEEfrZL1L6gi9dqi1YkZu5iHb2HJ8WbZaaKAyNWWRAa8yaxMkGKJmX", "hello world"}
         };
 
         for(Object[] ex: examples) {
