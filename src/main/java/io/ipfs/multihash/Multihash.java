@@ -214,8 +214,12 @@ public class Multihash {
         return new Multihash(t, hash);
     }
 
-    public static Multihash deserialize(byte[] raw) throws IOException {
-        return deserialize(new ByteArrayInputStream(raw));
+    public static Multihash deserialize(byte[] raw) {
+        try {
+            return deserialize(new ByteArrayInputStream(raw));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -224,7 +228,7 @@ public class Multihash {
      * @return
      * @throws IOException
      */
-    public static Multihash decode(String encoded) throws IOException {
+    public static Multihash decode(String encoded) {
         if (encoded.length() == 46 && encoded.startsWith("Qm"))
             return deserialize(Base58.decode(encoded));
         return deserialize(Multibase.decode(encoded));
@@ -269,11 +273,7 @@ public class Multihash {
     }
 
     public static Multihash fromBase58(String base58) {
-        try {
-            return Multihash.deserialize(Base58.decode(base58));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return Multihash.deserialize(Base58.decode(base58));
     }
 
     public static long readVarint(InputStream in) throws IOException {
