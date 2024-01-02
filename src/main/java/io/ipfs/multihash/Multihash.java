@@ -198,10 +198,6 @@ public class Multihash {
         }
     }
 
-    public Multihash bareMultihash() {
-        return this;
-    }
-
     public static Multihash deserialize(InputStream din) throws IOException {
         int type = (int)readVarint(din);
         int len = (int)readVarint(din);
