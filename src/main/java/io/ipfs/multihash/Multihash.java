@@ -148,6 +148,10 @@ public class Multihash {
             return type;
         }
 
+        @Override
+        public int hashCode() {
+            return index;
+        }
     }
 
     private final Type type;
