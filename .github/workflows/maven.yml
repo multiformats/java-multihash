@@ -14,8 +14,8 @@ jobs:
       with:
         distribution: temurin
         java-version: 11
-    - name: Build with Ant
-      run: ant -noinput -buildfile build.xml dist
-    - name: Run tests
+    - name: Build with Maven
+      run: mvn -B test-compile
+    - name: Run tests with Maven
       timeout-minutes: 10
-      run: ant -noinput -buildfile build.xml test
+      run: mvn -B test
