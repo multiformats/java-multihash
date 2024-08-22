@@ -1,19 +1,19 @@
 package io.ipfs.multihash;
 
 import io.ipfs.multibase.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class MultihashTest {
+class MultihashTest {
 
     @Test
-    public void base58Test() {
+    void base58Test() {
         List<String> examples = Arrays.asList("QmPZ9gcCEpqKTo6aq61g2nXGUhM4iCL3ewB6LDXZCtioEB",
                 "QmatmE9msSfkKxoffpHwNLNKgwZG8eT9Bud6YoPab52vpy");
         for (String example: examples) {
@@ -24,7 +24,7 @@ public class MultihashTest {
     }
 
     @Test
-    public void decodeTest() throws IOException {
+    void decodeTest() throws IOException {
         List<String> base58 = Arrays.asList(
                 "QmPZ9gcCEpqKTo6aq61g2nXGUhM4iCL3ewB6LDXZCtioEB",
                 "QmatmE9msSfkKxoffpHwNLNKgwZG8eT9Bud6YoPab52vpy"
@@ -40,7 +40,7 @@ public class MultihashTest {
     }
 
     @Test
-    public void multihashTest() {
+    void multihashTest() {
         Object[][] examples = new Object[][]{
             {Multihash.Type.id, "ID", "13hC12xCn", "hello"},
             {Multihash.Type.id, "ID", "11", ""},
