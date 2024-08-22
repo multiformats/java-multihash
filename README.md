@@ -15,7 +15,7 @@ Simply clone this repository.
 
 ## Usage
 
-```
+```java
 Multihash b58 = Multihash.decode("QmatmE9msSfkKxoffpHwNLNKgwZG8eT9Bud6YoPab52vpy");
 Multihash b36 = Multihash.decode("kmue2y4illvr0m3lt8x6z8iwghtxlzdmkjh957p5rr5cdr9243ugc");
 ```
@@ -23,7 +23,7 @@ Multihash b36 = Multihash.decode("kmue2y4illvr0m3lt8x6z8iwghtxlzdmkjh957p5rr5cdr
 You can use this project by building the JAR file as specified below, or by using [JitPack](https://jitpack.io/#multiformats/java-multihash/) (also supporting Gradle, SBT, etc).
 
 for Maven, you can add the follwing sections to your POM.XML:
-```
+```xml
   <repositories>
     <repository>
         <id>jitpack.io</id>
@@ -42,22 +42,15 @@ for Maven, you can add the follwing sections to your POM.XML:
 
 ## Testing
 
-### Ant
-`ant test`
-
-### Maven
 `mvn test`
 
 ## Building
 
-### Ant
-`ant dist` will build a JAR file in the `./dist` suitable for manual inclusion in a project. Dependent libraries are included in `./dist/lib`.
-
-### Maven
 `mvn package` will build a JAR file with Maven dependency information.
 
 ## Releasing
-The version number is specified in `build.xml` and `pom.xml` and must be changed in both places in order to be accurately reflected in the JAR file manifest. A git tag must be added in the format "vx.x.x" for JitPack to work.
+
+The version number is specified in the `pom.xml` file and must be changed in order to be accurately reflected in the JAR file manifest. A git tag must be added in the format "vx.x.x" for JitPack to work.
 
 ## Maintainers
 
