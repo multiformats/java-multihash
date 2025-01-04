@@ -27,15 +27,21 @@ Consumers of this library can use different implementations for different reason
 * [JDK's `MessageDigest`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html) supports (at least) these:
   * md5 = MD5
   * sha1 = SHA-1
+  * sha2-224 = SHA-224
+  * sha2-256 = SHA-256
+  * sha2-384 = SHA-384
+  * sha2-512 = SHA-512
+  * sha2-512-224 = SHA-512/224
+  * sha2-512-256 = SHA-512/256
   * sha3_224 = SHA3-224
   * sha3_256 = SHA3-256
   * sha3_512 = SHA3-512
-* [Google Guava's Hashing](https://github.com/google/guava/wiki/hashingexplained) offers:
-  * md5 = `Hashing.md5()`
-  * sha1 -> `@Deprecated Hashing.sha1()`
-  * sha2_256 -> `Hashing.sha256()`
-  * sha2_512 -> `Hashing.sha512()`
-  * murmur3 -> `Hashing.murmur3_32_fixed()`
+* [Google Guava's Hashing](https://github.com/google/guava/wiki/hashingexplained) offers [intentionally only](https://github.com/google/guava/issues/5990#issuecomment-2571350434) these:
+  * md5 = `@Deprecated Hashing.md5()`
+  * sha1 = `@Deprecated Hashing.sha1()`
+  * sha2_256 = `Hashing.sha256()`
+  * sha2_512 = `Hashing.sha512()`
+  * murmur3 = `Hashing.murmur3_32_fixed()`
 
 Please contribute an update to this list if you know of any other related libraries.
 
