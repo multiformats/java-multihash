@@ -19,10 +19,51 @@ Simply clone this repository.
 Multihash b58 = Multihash.decode("QmatmE9msSfkKxoffpHwNLNKgwZG8eT9Bud6YoPab52vpy");
 Multihash b36 = Multihash.decode("kmue2y4illvr0m3lt8x6z8iwghtxlzdmkjh957p5rr5cdr9243ugc");
 ```
+
+Note that this library only decodes & encodes Multihashes, and does not actually include any implementations of the hash functions themselves.
+
+Consumers of this library can use different implementations for different reasons. Here are a few possible implementation choices for each `Multihash.Type`:
+
+* [JDK's `MessageDigest`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html) supports (at least) these:
+  * md5 = MD5
+  * sha1 = SHA-1
+  * sha2-224 = SHA-224
+  * sha2-256 = SHA-256
+  * sha2-384 = SHA-384
+  * sha2-512 = SHA-512
+  * sha2-512-224 = SHA-512/224
+  * sha2-512-256 = SHA-512/256
+  * sha3_224 = SHA3-224
+  * sha3_256 = SHA3-256
+  * sha3_512 = SHA3-512
+* [Google Guava's Hashing](https://github.com/google/guava/wiki/hashingexplained) offers [intentionally only](https://github.com/google/guava/issues/5990#issuecomment-2571350434) these:
+  * md5 = `@Deprecated Hashing.md5()`
+  * sha1 = `@Deprecated Hashing.sha1()`
+  * sha2_256 = `Hashing.sha256()`
+  * sha2_512 = `Hashing.sha512()`
+  * murmur3 = `Hashing.murmur3_32_fixed()`
+* [Google Tink](https://developers.google.com/tink/supported-key-types#mac)
+  * AES-CMAC, see [Multicodec Issue #368](https://github.com/multiformats/multicodec/issues/368)
+* [BouncyCastle](https://www.bouncycastle.org/documentation/specification_interoperability/)
+  * blake2*
+  * blake3*
+  * shake-*
+  * ripemd-*
+* [Apache Commons Codec](https://commons.apache.org/proper/commons-codec/)
+  * blake3*
+  * murmur3
+* [Jacksum](https://github.com/jonelo/jacksum)
+  * skein*
+  * ...
+
+Please contribute an update to this list if you know of any other related libraries.
+
 ## Dependency
+
 You can use this project by building the JAR file as specified below, or by using [JitPack](https://jitpack.io/#multiformats/java-multihash/) (also supporting Gradle, SBT, etc).
 
 for Maven, you can add the follwing sections to your POM.XML:
+
 ```xml
   <repositories>
     <repository>
