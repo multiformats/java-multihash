@@ -19,10 +19,32 @@ Simply clone this repository.
 Multihash b58 = Multihash.decode("QmatmE9msSfkKxoffpHwNLNKgwZG8eT9Bud6YoPab52vpy");
 Multihash b36 = Multihash.decode("kmue2y4illvr0m3lt8x6z8iwghtxlzdmkjh957p5rr5cdr9243ugc");
 ```
+
+Note that this library only decodes & encodes Multihashes, and does not actually include any implementations of the hash functions themselves.
+
+Consumers of this library can use different implementations for different reasons. Here are a few possible implementation choices for each `Multihash.Type`:
+
+* [JDK's `MessageDigest`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/MessageDigest.html) supports (at least) these:
+  * md5 = MD5
+  * sha1 = SHA-1
+  * sha3_224 = SHA3-224
+  * sha3_256 = SHA3-256
+  * sha3_512 = SHA3-512
+* [Google Guava's Hashing](https://github.com/google/guava/wiki/hashingexplained) offers:
+  * md5 = `Hashing.md5()`
+  * sha1 -> `@Deprecated Hashing.sha1()`
+  * sha2_256 -> `Hashing.sha256()`
+  * sha2_512 -> `Hashing.sha512()`
+  * murmur3 -> `Hashing.murmur3_32_fixed()`
+
+Please contribute an update to this list if you know of any other related libraries.
+
 ## Dependency
+
 You can use this project by building the JAR file as specified below, or by using [JitPack](https://jitpack.io/#multiformats/java-multihash/) (also supporting Gradle, SBT, etc).
 
 for Maven, you can add the follwing sections to your POM.XML:
+
 ```xml
   <repositories>
     <repository>
