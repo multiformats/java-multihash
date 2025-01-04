@@ -42,6 +42,8 @@ Consumers of this library can use different implementations for different reason
   * sha2_256 = `Hashing.sha256()`
   * sha2_512 = `Hashing.sha512()`
   * murmur3 = `Hashing.murmur3_32_fixed()`
+* [Google Tink](https://developers.google.com/tink/supported-key-types#mac)
+  * AES-CMAC, see [Multicodec Issue #368](https://github.com/multiformats/multicodec/issues/368)
 
 Please contribute an update to this list if you know of any other related libraries.
 
