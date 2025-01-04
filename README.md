@@ -44,6 +44,17 @@ Consumers of this library can use different implementations for different reason
   * murmur3 = `Hashing.murmur3_32_fixed()`
 * [Google Tink](https://developers.google.com/tink/supported-key-types#mac)
   * AES-CMAC, see [Multicodec Issue #368](https://github.com/multiformats/multicodec/issues/368)
+* [BouncyCastle](https://www.bouncycastle.org/documentation/specification_interoperability/)
+  * blake2*
+  * blake3*
+  * shake-*
+  * ripemd-*
+* [Apache Commons Codec](https://commons.apache.org/proper/commons-codec/)
+  * blake3*
+  * murmur3
+* [Jacksum](https://github.com/jonelo/jacksum)
+  * skein*
+  * ...
 
 Please contribute an update to this list if you know of any other related libraries.
 
