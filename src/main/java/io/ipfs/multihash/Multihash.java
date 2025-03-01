@@ -10,6 +10,7 @@ import java.util.Map;
 public class Multihash {
     public static final int MAX_IDENTITY_HASH_LENGTH = 1024*1024;
 
+    // From https://github.com/multiformats/multicodec/blob/master/table.csv
     public enum Type {
         id(0, -1),
         md5(0xd5, 16),
@@ -126,7 +127,11 @@ public class Multihash {
         blake2s_232(0xb25d, 29),
         blake2s_240(0xb25e, 30),
         blake2s_248(0xb25f, 31),
-        blake2s_256(0xb260, 32);
+        blake2s_256(0xb260, 32),
+
+        // Murmur
+        murmur3_x64_64(0x22, 8),
+        murmur3_x64_128(0x1022, 16); // DRAFT status
 
         public final int index, length;
 
