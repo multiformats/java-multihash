@@ -40,6 +40,19 @@ class MultihashTest {
     }
 
     @Test
+    void variableLengthMultihashTest() throws Exception {
+        Object[][] examples = new Object[][]{
+            {Multihash.Type.shake_128, "18108eb4b6a932f280335ee1a279f8c208a3"},
+            {Multihash.Type.shake_128, "18208eb4b6a932f280335ee1a279f8c208a349e7bc65daf831d3021c213825292463"},
+            {Multihash.Type.shake_128, "18308eb4b6a932f280335ee1a279f8c208a349e7bc65daf831d3021c213825292463c59e22d0fe2c767cd7cacc4df42dd5f6"},
+        };
+        for(Object[] ex: examples) {
+            Multihash m = Multihash.fromHex((String)ex[1]);
+            assertEquals(ex[0], m.getType());
+        }
+    }
+
+    @Test
     void multihashTest() {
         Object[][] examples = new Object[][]{
             {Multihash.Type.id, "ID", "13hC12xCn", "hello"},
