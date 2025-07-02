@@ -27,6 +27,7 @@ public class Multihash {
         keccak_256(0x1b, 32),
         keccak_384(0x1c, 48),
         keccak_512(0x1d, 64),
+        blake3(0x1e, 32),
         murmur3(0x22, 4),
 
         // blake2b (64 codes)
