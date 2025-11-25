@@ -246,7 +246,7 @@ public class Multihash {
 
     @Override
     public String toString() {
-        return toBase58();
+        return "Qm" + toBase58();
     }
 
     @Override
