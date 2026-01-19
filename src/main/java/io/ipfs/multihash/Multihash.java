@@ -21,8 +21,8 @@ public class Multihash {
         sha3_224(0x17, 24),
         sha3_256(0x16, 32),
         sha3_512(0x14, 64),
-        shake_128(0x18, 32),
-        shake_256(0x19, 64),
+        shake_128(0x18, -1),
+        shake_256(0x19, -1),
         keccak_224(0x1a, 24),
         keccak_256(0x1b, 32),
         keccak_384(0x1c, 48),
@@ -164,7 +164,7 @@ public class Multihash {
             throw new IllegalStateException("Unsupported hash size: "+hash.length);
         if (hash.length > MAX_IDENTITY_HASH_LENGTH)
             throw new IllegalStateException("Unsupported hash size: "+hash.length);
-        if (hash.length != type.length && type != Type.id)
+        if (hash.length != type.length && type.length != -1)
             throw new IllegalStateException("Incorrect hash length: " + hash.length + " != "+type.length);
         this.type = type;
         this.hash = hash;
