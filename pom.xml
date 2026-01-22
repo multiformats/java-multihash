@@ -7,27 +7,27 @@
   <version>1.4.0</version>
   <packaging>jar</packaging>
 
-  <name>multibase</name>
-  <url>https://github.com/multiformats/java-multibase</url>
+  <name>multihash</name>
+  <url>https://github.com/multiformats/java-multihash</url>
 
   <licenses>
     <license>
       <name>MIT License</name>
-      <url>https://github.com/multiformats/java-multiaddr/blob/master/LICENSE</url>
+      <url>https://github.com/multiformats/java-multihash/blob/master/LICENSE</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
 
   <scm>
-    <connection>scm:git:git://github.com/multiformats/java-multibase.git</connection>
-    <developerConnection>scm:git:git@github.com:multiformats/java-multibase.git</developerConnection>
+    <connection>scm:git:git://github.com/multiformats/java-multihash.git</connection>
+    <developerConnection>scm:git:git@github.com:multiformats/java-multihash.git</developerConnection>
     <tag>HEAD</tag>
-    <url>https://github.com/multiformats/java-multibase</url>
+    <url>https://github.com/multiformats/java-multihash</url>
   </scm>
 
   <issueManagement>
     <system>GitHub Issues</system>
-    <url>https://github.com/multiformats/java-multibase/issues</url>
+    <url>https://github.com/multiformats/java-multihash/issues</url>
   </issueManagement>
 
   <properties>
