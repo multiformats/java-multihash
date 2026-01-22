@@ -22,14 +22,5 @@ jobs:
           distribution: temurin
           java-version: 21
           cache: 'maven'
-      - name: IPFS Download
-        uses: ipfs/download-ipfs-distribution-action@v1
-        with:
-          name: kubo
-      - name: IPFS Init
-        shell: bash
-        run: |
-          ipfs init --profile server
-          ipfs daemon --enable-pubsub-experiment --enable-namesys-pubsub &
       - name: Build & run tests with Maven
         run: ./mvnw -V verify
